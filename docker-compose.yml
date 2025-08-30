@@ -20,5 +20,21 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
+  openssh-server:
+    image: linuxserver/openssh-server:version-9.6_p1-r0
+    container_name: openssh-server
+    hostname: openssh-server #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Tokyo
+      - PASSWORD_ACCESS=true 
+      - USER_PASSWORD=Mpass
+      - USER_NAME=Muser
+      - LOG_STDOUT= #optional
+    ports:
+      - 2222:2222
+    restart: unless-stopped
+
 volumes:
   db_data:
