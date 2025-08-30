@@ -1,23 +1,24 @@
 version: "3.7"
 
 services:
-  php:
-    build: ./php
+  php-apache:
+    image: php:8.2-apache
     ports:
-      - "8080:80"
+      - "8081:80"
     volumes:
-      - ./php:/var/www/html
+      - ./htdocs:/var/www/html
     depends_on:
-      - db
+      - mysql
 
-  db:
-    image: mysql:8
+  mysql:
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: sampledb
-      MYSQL_USER: user
-      MYSQL_PASSWORD: userpass
-    ports:
-      - "3306:3306"
+      MYSQL_DATABASE: shop
+      MYSQL_USER: shop_user
+      MYSQL_PASSWORD: shop_pass
     volumes:
-      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
